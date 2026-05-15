@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyFLIX</title>
+    <meta name="description" content="SkyFLIX - Tu plataforma de películas y series favoritas. Descubre, comenta y califica títulos seleccionados.">
+    <link rel="icon" href="img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="img/icon.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+                <span class="fw-bold">SkyFLIX</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item" id="auth-nav-item">
+                        <button class="btn btn-outline-light btn-sm me-2" id="btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+                        <button class="btn btn-skyflix btn-sm" id="btn-register" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+                    </li>
+                    <li class="nav-item d-none dropdown" id="user-nav-item">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-0" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar-nav" id="user-avatar-nav"></div>
+                            <span class="text-light" id="user-name"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item btn-edit-comentario" href="#" id="btn-perfil" data-bs-toggle="modal" data-bs-target="#perfilModal">Mi Perfil</a></li>
+                            <li><a class="dropdown-item btn-delete-comentario" href="#" id="btn-logout">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center py-5 text-white">
+        <div class="container">
+            <h1 class="display-5 fw-semibold mb-3">Tu universo de peliculas y series</h1>
+            <p class="lead mb-0">Descubre títulos cuidadosamente seleccionados y encuentra tu próxima historia favorita</p>
+        </div>
+    </header>
+
+    <main class="container my-5 main-content">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4">
+            <h2 class="section-title mb-3 mb-md-0">Explora el catálogo</h2>
+            <form id="search-form" class="d-flex search-form">
+                <input id="search-input" class="form-control me-2" type="search" placeholder="Buscar por título..." aria-label="Buscar">
+                <button class="btn btn-outline-light" type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <section id="destacados" class="mb-5">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
+                <h2 class="section-title mb-3 mb-md-0">Selección destacada</h2>
+            </div>
+            <div class="row g-3 g-md-4" id="catalogue">
+            </div>
+        </section>
+
+        <section id="especial" class="mb-5">
+            <h2 class="section-title mb-4">Selección especial</h2>
+            <div class="row g-3 g-md-4" id="especial-grid">
+            </div>
+        </section>
+
+        <section id="resultados" class="mb-5 d-none">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
+                <h2 class="section-title mb-3 mb-md-0" id="resultados-titulo">Resultados</h2>
+            </div>
+            <div class="row g-3 g-md-4" id="resultados-grid">
+            </div>
+            <nav class="mt-4" aria-label="Paginación de resultados">
+                <ul class="pagination justify-content-center mb-0" id="resultados-pagination"></ul>
+            </nav>
+        </section>
+    </main>
+
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content bg-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="detailsModalLabel">Detalles</h5>
+                    <button type="button" class="btn btn-outline-light btn-close-modal" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="modal-body" id="details-modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="registerModalLabel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#f4c430" viewBox="0 0 16 16" class="me-2">
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-.779.357-1.85 1.084-2.79.243-.314.511-.6.8-.858ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                        </svg>
+                        Crear Cuenta
+                    </h5>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="modal-body">
+                    <form id="register-form">
+                        <div class="mb-3">
+                            <label for="register-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control bg-dark text-light border-secondary" id="register-nombre" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="register-email" class="form-label">Email</label>
+                            <input type="email" class="form-control bg-dark text-light border-secondary" id="register-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="register-password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control bg-dark text-light border-secondary" id="register-password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                        </div>
+                        <div id="register-error" class="alert alert-danger py-2" style="display: none;"></div>
+                        <button type="submit" class="btn btn-skyflix w-100 py-2">Crear Cuenta</button>
+                        <small class="d-block mt-3 text-center text-light">¿Ya tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" class="link-accent">Inicia sesión</a></small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#f4c430" viewBox="0 0 16 16" class="me-2">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                        Iniciar Sesión
+                    </h5>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="login-email" class="form-label">Email</label>
+                            <input type="email" class="form-control bg-dark text-light border-secondary" id="login-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login-password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control bg-dark text-light border-secondary" id="login-password" placeholder="Tu contraseña" required>
+                        </div>
+                        <div id="login-error" class="alert alert-danger py-2" style="display: none;"></div>
+                        <button type="submit" class="btn btn-skyflix w-100 py-2">Iniciar Sesión</button>
+                        <small class="d-block mt-3 text-center text-light">¿No tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" class="link-accent">Regístrate</a></small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="perfilModal" tabindex="-1" aria-labelledby="perfilModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content bg-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="perfilModalLabel">Mi Perfil</h5>
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="modal-body" id="perfil-modal-body">
+                    <div class="perfil-header mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="perfil-avatar" id="perfil-avatar"></div>
+                            <div>
+                                <h4 class="mb-0" id="perfil-nombre"></h4>
+                                <small class="text-light" id="perfil-email"></small>
+                            </div>
+                        </div>
+                        <div class="perfil-stats nav mt-3 d-flex gap-4" role="tablist" aria-label="Secciones de perfil">
+                            <button class="perfil-stat-btn nav-link active" id="tab-pendientes" data-bs-toggle="tab" data-bs-target="#panel-pendientes" type="button" role="tab" aria-controls="panel-pendientes" aria-selected="true">
+                                <div class="stat-num" id="stat-pendientes">Total 0</div>
+                                <div class="stat-label">Favoritos</div>
+                            </button>
+                            <button class="perfil-stat-btn nav-link" id="tab-mis-comentarios" data-bs-toggle="tab" data-bs-target="#panel-comentarios" type="button" role="tab" aria-controls="panel-comentarios" aria-selected="false">
+                                <div class="stat-num" id="stat-comentarios">Total 0</div>
+                                <div class="stat-label">Comentarios</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="perfilTabContent">
+                        <div class="tab-pane fade show active" id="panel-pendientes" role="tabpanel">
+                            <div class="row g-3" id="perfil-pendientes-grid"></div>
+                        </div>
+                        <div class="tab-pane fade" id="panel-comentarios" role="tabpanel">
+                            <div id="perfil-comentarios-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p class="mb-0 text-white small">© 2026 SkyFLIX - Proyecto Programación para Internet - PollitoMan es un Grande</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
